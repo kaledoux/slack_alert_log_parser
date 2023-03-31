@@ -71,6 +71,16 @@ defmodule SlackAlertLogParserTest do
     "Unicorns" => "450"
   }
 
+  @saturated_event_log %{
+    "current_failure_count" => "25",
+    "current_failure_count_threshold" => "50",
+    "current_failure_rate_threshold" => "0.25",
+    "gateway_type" => "MercadoPago",
+    "time_stamp" => "2020-11-18T16:39:11Z",
+    "total_active_count" => "440",
+    "unicorns" => "450"
+  }
+
   describe "read_filtered_json_files_in_folder" do
     test "should filter out non-CB related logs" do
       filtered = SlackAlertLogParser.read_filtered_json_files_in_folder(@test_dir)
@@ -103,9 +113,28 @@ defmodule SlackAlertLogParserTest do
       assert Map.get(formatted, "time_stamp") == @time_stamp
 
       # failure count threshold data
-      assert Map.get(formatted, "current_failure_count_threshold") == "50"
+      assert Map.get(formatted, "current_failure_count_threshold") == @threshold_values_map["Current Failure Count Threshold"]
+
+      # failure count rate data
+      assert Map.get(formatted, "current_failure_rate_threshold") == @threshold_values_map["Current Failure Rate Threshold"]
+
+      # failure count data
+      assert Map.get(formatted, "current_failure_count") == @threshold_values_map["Current Failures"]
+
+      # total active count data
+      assert Map.get(formatted, "total_active_count") == @threshold_values_map["Total Active Count"]
+
+      # current unicorn consumption data
+      assert Map.get(formatted, "unicorns") == @threshold_values_map["Unicorns"]
     end
   end
+
+  # describe "reason_for_trip" do
+  #   test "should return gateway_saturation if unicorns are saturated" do
+  #     assert SlackAlertLogParser.reason_for_trip(@saturated_event_log) == "gateway_saturation"
+  #   end
+
+  # end
 
   describe "split_out_attachments_text_content " do
     test "should split text from first element in \'attachments\' list on \\n" do
