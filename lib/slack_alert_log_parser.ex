@@ -23,6 +23,7 @@ defmodule SlackAlertLogParser do
         |> convert_unix_timestamp()
       end)
       |> List.flatten()
+      |> Enum.map(&SlackAlertLogParser.add_threshold_values_to_log/1)
       processed
     else
       :error -> IO.puts "Error!"
@@ -33,6 +34,7 @@ defmodule SlackAlertLogParser do
   defp filter_json_objects(json_contents) do
     Enum.filter(json_contents, fn obj ->
       obj["username"] == "Circuit Breaker" and
+      obj["attachments"] != nil and
       String.contains?(obj["text"], "resumed operation") == false
     end)
   end
@@ -44,16 +46,25 @@ defmodule SlackAlertLogParser do
     end)
   end
 
-  # a map function for the pipeline that adds a new property
-  # the property will contain the extracted & parsed text values
-  defp extract_trip_numbers(attachment_text) do
-    # split the string, then split each substring on ":"
-    # take the first portion of the split string and use it as a key
-    # use the number (converted from string) as the value
-    # add new object?
-    String.split(attachment_text, "\n")
-      |> Enum.map(fn sub -> String.trim(sub) end)
+  def add_threshold_values_to_log(event_log_obj) do
+    threshold_values = split_out_attachments(event_log_obj)
+    |> build_threshold_values
+    event_log_obj = Map.put(event_log_obj, "threshold_values", threshold_values)
+    event_log_obj
   end
+
+  def split_out_attachments(event_log_obj) do
+    List.first(event_log_obj["attachments"])["text"]
+    |> String.split("\n", trim: true)
+  end
+
+  def build_threshold_values(threshold_strings_list) do
+    Enum.reduce(threshold_strings_list, %{}, fn string, acc ->
+      [k, v] = String.split(string, ":", trim: true)
+      Map.put(acc, String.trim(k), String.trim(v))
+    end)
+  end
+
 end
 
 # file_location = IO.gets("Enter directory where Slack's JSON logs are being stored:")

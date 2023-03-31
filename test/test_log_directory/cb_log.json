@@ -1,0 +1,100 @@
+[
+  {
+    "type": "message",
+    "subtype": "bot_message",
+    "text": "MercadoPagoGateway circuit has been tripped because: the gateway has had too many failures",
+    "ts": "1605717551.009400",
+    "username": "Circuit Breaker",
+    "bot_id": "BBJQNATGF",
+    "blocks": [
+      {
+        "type": "rich_text",
+        "block_id": "qMz",
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "type": "text",
+                "text": "MercadoPagoGateway circuit has been tripped because: the gateway has had too many failures"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "attachments": [
+      {
+        "fallback": "Check our runbook for possible actions",
+        "text": "Current Failure Rate Threshold: 0.25 \n Current Failure Count Threshold: 50 \n Current Failures:  25 \n Unicorns: 450 \n Total Active Count: 8",
+        "id": 1,
+        "color": "daa038",
+        "fields": [
+          {
+            "title": "Possible Actions",
+            "value": " - Increase unicorn count (if saturated)\n - Check the gateway's status page",
+            "short": false
+          }
+        ],
+        "actions": [
+          {
+            "id": "1",
+            "text": "Runbook",
+            "type": "button",
+            "style": "primary",
+            "url": "someURL"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "message",
+    "subtype": "bot_message",
+    "text": "MercadoPagoGateway circuit has resumed operation because: passed its retry timeout",
+    "ts": "1605717612.009500",
+    "username": "Circuit Breaker",
+    "bot_id": "BBJQNATGF",
+    "blocks": [
+      {
+        "type": "rich_text",
+        "block_id": "++\/99",
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "type": "text",
+                "text": "MercadoPagoGateway circuit has resumed operation because: passed its retry timeout"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "attachments": [
+      {
+        "fallback": "Check our runbook for possible actions",
+        "text": "Current Failure Rate Threshold: 0.25 \n Current Failure Count Threshold: 50 \n Current Failures:  0 \n Unicorns: 450 \n Total Active Count: 5",
+        "id": 1,
+        "color": "daa038",
+        "fields": [
+          {
+            "title": "Possible Actions",
+            "value": " - Increase unicorn count (if saturated)\n - Check the gateway's status page",
+            "short": false
+          }
+        ],
+        "actions": [
+          {
+            "id": "1",
+            "text": "Runbook",
+            "type": "button",
+            "style": "primary",
+            "url": "someURL"
+          }
+        ]
+      }
+    ]
+  }
+]

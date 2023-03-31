@@ -1,0 +1,35 @@
+[
+  {
+    "type": "message",
+    "subtype": "bot_message",
+    "text": "",
+    "ts": "1577876462.000900",
+    "username": "Account Updater",
+    "bot_id": "B6S7RLUS2",
+    "attachments": [
+      {
+        "title": "Batch Send Started",
+        "id": 1,
+        "color": "36a64f",
+        "fallback": "Batch Send Started"
+      }
+    ]
+  },
+  {
+    "type": "message",
+    "subtype": "bot_message",
+    "text": "",
+    "ts": "1577919501.001000",
+    "username": "Account Updater",
+    "bot_id": "B6S7RLUS2",
+    "attachments": [
+      {
+        "fallback": "• Hopper - 2107806 cards sent\n • UtilityWarehouse - 828903 cards sent\n • Fonteva, Inc. - 190669 cards sent\n • Fattmerchant - 498795 cards sent\n • Bandcamp production - 426816 cards sent\n • Bubbly Brands - 350679 cards sent\n • Brandt Information Services, LLC - 183308 cards sent\n • GLOBALFOOD TECH SRL - 3193 cards sent\n • Subscribe Pro Inc - With AU - 282166 cards sent\n • Funraise - 180754 cards sent\n • MWR Life, LLC - 128755 cards sent\n • Omicron Media, Inc. - 244203 cards sent\n • LAShowroom - 71929 cards sent\n • StarNow Ltd. - 75581 cards sent\n • Widernet Communications Ltd. - 6166 cards sent\n • JetSmarter Inc. - 67312 cards sent\n • Capitol Information Group, Inc. - 81958 cards sent\n • iDonate - 57877 cards sent\n • cashbackpoint - 96950 cards sent\n • Hippie Butler - 39719 cards sent\n • Nano Media Inc. - 42123 cards sent\n • BHSI - 33996 cards sent\n • The Feed - 32198 cards sent\n • esri - 21805 cards sent\n • <http:\/\/Projectmanager.com|Projectmanager.com> Inc - 23595 cards sent\n • Wicked Weasel Pty Ltd - 28547 cards sent\n • PawsX - 27276 cards sent\n • <http:\/\/FlexPay.io|FlexPay.io> - 29955 cards sent\n • ZampleBox, LLC - 20266 cards sent\n • eComEngine - 26257 cards sent\n • TextMagic - 24894 cards sent\n • Kristin Hagen, LLC - 8795 cards sent\n • Spreedly - 1528 cards sent\n • Dime - 0 cards sent\n • Rodati Servicios S.A. de C.V. - 194 cards sent\n • AppFront - 15046 cards sent\n • Peapil Publishing Ltd. - 2 cards sent\n • Starlink Global Holding Limited - 116 cards sent\n • TVC Holding - 0 cards sent\n • Dominion Capital Strategies Limited - 874 cards sent\n • Bunabu - 132 cards sent\n • Alto Solutions, Inc. - 521 cards sent\n • 360Connect, LP - 595 cards sent\n • Syncopal - 1521 cards sent\n • uBack - 121 cards sent\n • GetWebCraft Limited - 3758 cards sent\n • Leap LLC - 861 cards sent\n • Aero Technologies Inc - 74 cards sent\n • PayGrove - 0 cards sent\n • Message Media - 3158 cards sent\n • HoldMyTicket - 10093 cards sent\n • Buffered Limited - 14488 cards sent\n • Fresh Grill - 438 cards sent\n • Cin7 - 0 cards sent\n • Further Learning Ltd. - 12399 cards sent\n • InstaFit - 5506 cards sent\n • SmartyStreets - 5550 cards sent\n • VidAngel - 10676 cards sent\n • Spreedly Team - 9 cards sent\n • Giving Assistant - 2696 cards sent\n • DeskPRO - 3683 cards sent\n • Market Alert - 523 cards sent\n • TeddySoft Ltd - 2644 cards sent\n • JobScore - 1547 cards sent\n • CashDeck Pty Ltd - 1305 cards sent\n • Filecamp AG - 2834 cards sent\n",
+        "text": "• Hopper - 2107806 cards sent\n • UtilityWarehouse - 828903 cards sent\n • Fonteva, Inc. - 190669 cards sent\n • Fattmerchant - 498795 cards sent\n • Bandcamp production - 426816 cards sent\n • Bubbly Brands - 350679 cards sent\n • Brandt Information Services, LLC - 183308 cards sent\n • GLOBALFOOD TECH SRL - 3193 cards sent\n • Subscribe Pro Inc - With AU - 282166 cards sent\n • Funraise - 180754 cards sent\n • MWR Life, LLC - 128755 cards sent\n • Omicron Media, Inc. - 244203 cards sent\n • LAShowroom - 71929 cards sent\n • StarNow Ltd. - 75581 cards sent\n • Widernet Communications Ltd. - 6166 cards sent\n • JetSmarter Inc. - 67312 cards sent\n • Capitol Information Group, Inc. - 81958 cards sent\n • iDonate - 57877 cards sent\n • cashbackpoint - 96950 cards sent\n • Hippie Butler - 39719 cards sent\n • Nano Media Inc. - 42123 cards sent\n • BHSI - 33996 cards sent\n • The Feed - 32198 cards sent\n • esri - 21805 cards sent\n • <http:\/\/Projectmanager.com|Projectmanager.com> Inc - 23595 cards sent\n • Wicked Weasel Pty Ltd - 28547 cards sent\n • PawsX - 27276 cards sent\n • <http:\/\/FlexPay.io|FlexPay.io> - 29955 cards sent\n • ZampleBox, LLC - 20266 cards sent\n • eComEngine - 26257 cards sent\n • TextMagic - 24894 cards sent\n • Kristin Hagen, LLC - 8795 cards sent\n • Spreedly - 1528 cards sent\n • Dime - 0 cards sent\n • Rodati Servicios S.A. de C.V. - 194 cards sent\n • AppFront - 15046 cards sent\n • Peapil Publishing Ltd. - 2 cards sent\n • Starlink Global Holding Limited - 116 cards sent\n • TVC Holding - 0 cards sent\n • Dominion Capital Strategies Limited - 874 cards sent\n • Bunabu - 132 cards sent\n • Alto Solutions, Inc. - 521 cards sent\n • 360Connect, LP - 595 cards sent\n • Syncopal - 1521 cards sent\n • uBack - 121 cards sent\n • GetWebCraft Limited - 3758 cards sent\n • Leap LLC - 861 cards sent\n • Aero Technologies Inc - 74 cards sent\n • PayGrove - 0 cards sent\n • Message Media - 3158 cards sent\n • HoldMyTicket - 10093 cards sent\n • Buffered Limited - 14488 cards sent\n • Fresh Grill - 438 cards sent\n • Cin7 - 0 cards sent\n • Further Learning Ltd. - 12399 cards sent\n • InstaFit - 5506 cards sent\n • SmartyStreets - 5550 cards sent\n • VidAngel - 10676 cards sent\n • Spreedly Team - 9 cards sent\n • Giving Assistant - 2696 cards sent\n • DeskPRO - 3683 cards sent\n • Market Alert - 523 cards sent\n • TeddySoft Ltd - 2644 cards sent\n • JobScore - 1547 cards sent\n • CashDeck Pty Ltd - 1305 cards sent\n • Filecamp AG - 2834 cards sent\n",
+        "title": "Batch Send Complete",
+        "id": 1,
+        "color": "36a64f"
+      }
+    ]
+  }
+]

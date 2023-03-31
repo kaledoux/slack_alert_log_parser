@@ -1,0 +1,38 @@
+[
+  {
+    "type": "message",
+    "subtype": "bot_message",
+    "text": "Jesse Testing",
+    "ts": "1679574896.078079",
+    "username": "Circuit Breaker",
+    "bot_id": "BBJQNATGF",
+    "blocks": [
+      {
+        "type": "rich_text",
+        "block_id": "\/9u",
+        "elements": [
+          {
+            "type": "rich_text_section",
+            "elements": [
+              {
+                "type": "text",
+                "text": "Jesse Testing"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "reactions": [
+      {
+        "name": "jesseapproved",
+        "users": [
+          "U02JE5CDXAR",
+          "U024YUB9Y",
+          "U02G8USEWAU"
+        ],
+        "count": 3
+      }
+    ]
+  }
+]
