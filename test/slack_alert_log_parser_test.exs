@@ -83,7 +83,7 @@ defmodule SlackAlertLogParserTest do
 
   describe "read_filtered_json_files_in_folder" do
     test "should filter out non-CB related logs" do
-      filtered = SlackAlertLogParser.read_filtered_json_files_in_folder(@test_dir)
+      {:ok, filtered} = SlackAlertLogParser.read_filtered_json_files_in_folder(@test_dir)
       assert length(filtered) == 1
       refute Enum.any?(filtered, fn obj ->
         String.contains?(obj["text"], "resumed operation")
@@ -91,19 +91,20 @@ defmodule SlackAlertLogParserTest do
     end
 
     test " should modify dates to be in ISO 8601 datetime format" do
-      filtered = SlackAlertLogParser.read_filtered_json_files_in_folder(@test_dir)
+      {:ok, filtered} = SlackAlertLogParser.read_filtered_json_files_in_folder(@test_dir)
       assert List.first(filtered)["ts"] == @time_stamp
     end
 
     test "should add \'threshold_values\' property to event logs" do
-      filtered = SlackAlertLogParser.read_filtered_json_files_in_folder(@test_dir)
+      {:ok, filtered} = SlackAlertLogParser.read_filtered_json_files_in_folder(@test_dir)
       assert Enum.all?(filtered, fn obj -> Map.get(obj, "threshold_values") end)
     end
   end
 
   describe "format_event_log_object" do
     test "should include requisite properties" do
-      log_obj = List.first(SlackAlertLogParser.read_filtered_json_files_in_folder(@test_dir))
+      {:ok, filtered} = SlackAlertLogParser.read_filtered_json_files_in_folder(@test_dir)
+      log_obj = List.first(filtered)
       formatted = SlackAlertLogParser.format_event_log_object(log_obj)
 
       # gateway type that caused trip
@@ -128,13 +129,6 @@ defmodule SlackAlertLogParserTest do
       assert Map.get(formatted, "unicorns") == @threshold_values_map["Unicorns"]
     end
   end
-
-  # describe "reason_for_trip" do
-  #   test "should return gateway_saturation if unicorns are saturated" do
-  #     assert SlackAlertLogParser.reason_for_trip(@saturated_event_log) == "gateway_saturation"
-  #   end
-
-  # end
 
   describe "split_out_attachments_text_content " do
     test "should split text from first element in \'attachments\' list on \\n" do
