@@ -71,6 +71,18 @@ defmodule SlackAlertLogParserTest do
     "Unicorns" => "450"
   }
 
+  @formatted_logs [
+    %{
+      "current_failure_count" => "25",
+      "current_failure_count_threshold" => "50",
+      "current_failure_rate_threshold" => "0.25",
+      "gateway_type" => "MercadoPago",
+      "time_stamp" => "2020-11-18T16:39:11Z",
+      "total_active_count" => "8",
+      "unicorns" => "450"
+    }
+  ]
+
   @saturated_event_log %{
     "current_failure_count" => "25",
     "current_failure_count_threshold" => "50",
@@ -127,6 +139,13 @@ defmodule SlackAlertLogParserTest do
 
       # current unicorn consumption data
       assert Map.get(formatted, "unicorns") == @threshold_values_map["Unicorns"]
+    end
+  end
+
+  describe "format_all_logs" do
+    test "should format each log statement in collection" do
+      {:ok, formatted} = SlackAlertLogParser.format_all_logs(@test_dir)
+      assert formatted == @formatted_logs
     end
   end
 

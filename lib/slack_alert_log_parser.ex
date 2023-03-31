@@ -11,6 +11,18 @@ defmodule SlackAlertLogParser do
 
   @doc """
   """
+  def format_all_logs(folder_path) do
+    with {:ok, filtered} <- SlackAlertLogParser.read_filtered_json_files_in_folder(folder_path) do
+      formatted = filtered
+      |> Enum.map(&SlackAlertLogParser.format_event_log_object/1)
+      {:ok, formatted}
+    else
+      {:error, message} ->
+        IO.puts message
+        {:error, "failed to format all logs"}
+    end
+  end
+
   def read_filtered_json_files_in_folder(folder_path) do
     with {:ok, folder_contents} <- File.ls(folder_path)
     do
@@ -22,11 +34,6 @@ defmodule SlackAlertLogParser do
       :error -> IO.puts "Error!"
       {:error, :enoent} -> {:error, "Could not read files from #{folder_path}"}
     end
-  end
-
-  def format_all_logs(folder_path) do
-    SlackAlertLogParser.read_filtered_json_files_in_folder(folder_path)
-    |> Enum.map(&SlackAlertLogParser.format_event_log_object/1)
   end
 
   def format_event_log_object(event_log_object) do
