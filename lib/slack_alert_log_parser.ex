@@ -28,6 +28,7 @@ defmodule SlackAlertLogParser do
     do
       processed = decode_files_from_json(folder_contents, folder_path)
       |> List.flatten()
+      |> Enum.sort(&(&1["ts"] <= &2["ts"]))
       |> Enum.map(&SlackAlertLogParser.add_threshold_values_to_log/1)
       {:ok, processed}
     else
