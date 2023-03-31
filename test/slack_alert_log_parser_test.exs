@@ -5,6 +5,8 @@ defmodule SlackAlertLogParserTest do
   # assuming this is run from the root project dir
   @test_dir "./test/test_log_directory"
 
+  @time_stamp "2020-11-18T16:39:11Z"
+
   @event_log %{
     "attachments" => [
       %{
@@ -70,7 +72,7 @@ defmodule SlackAlertLogParserTest do
   }
 
   describe "read_filtered_json_files_in_folder" do
-    test "filters out non-CB related logs" do
+    test "should filter out non-CB related logs" do
       filtered = SlackAlertLogParser.read_filtered_json_files_in_folder(@test_dir)
       assert length(filtered) == 1
       refute Enum.any?(filtered, fn obj ->
@@ -78,31 +80,47 @@ defmodule SlackAlertLogParserTest do
       end)
     end
 
-    test "modifies dates to be in ISO 8601 datetime format" do
+    test " should modify dates to be in ISO 8601 datetime format" do
       filtered = SlackAlertLogParser.read_filtered_json_files_in_folder(@test_dir)
-      assert List.first(filtered)["ts"] == "2020-11-18T16:39:11Z"
+      assert List.first(filtered)["ts"] == @time_stamp
     end
 
-    test "adds \'threshold_values\' property to event logs" do
+    test "should add \'threshold_values\' property to event logs" do
       filtered = SlackAlertLogParser.read_filtered_json_files_in_folder(@test_dir)
       assert Enum.all?(filtered, fn obj -> Map.get(obj, "threshold_values") end)
     end
   end
 
+  describe "format_event_log_object" do
+    test "should include requisite properties" do
+      log_obj = List.first(SlackAlertLogParser.read_filtered_json_files_in_folder(@test_dir))
+      formatted = SlackAlertLogParser.format_event_log_object(log_obj)
+
+      # gateway type that caused trip
+      assert Map.get(formatted, "gateway_type") == "MercadoPago"
+
+      # time stamp
+      assert Map.get(formatted, "time_stamp") == @time_stamp
+
+      # failure count threshold data
+      assert Map.get(formatted, "current_failure_count_threshold") == "50"
+    end
+  end
+
   describe "split_out_attachments_text_content " do
-    test "splits text from first element in \'attachments\' list on \\n" do
+    test "should split text from first element in \'attachments\' list on \\n" do
       assert SlackAlertLogParser.split_out_attachments(@event_log) ==  @parsed
     end
   end
 
   describe "build_threshold_values" do
-    test "builds new map with proper keys and values" do
+    test "should build new map with proper keys and values" do
       assert SlackAlertLogParser.build_threshold_values(@parsed) == @threshold_values_map
     end
   end
 
   describe "add_threshold_values_to_log" do
-    test "adds new keys and values to event log obj" do
+    test "should add new keys and values to event log obj" do
       new_log = SlackAlertLogParser.add_threshold_values_to_log(@event_log)
       assert Map.get(new_log, "threshold_values") == @threshold_values_map
     end

@@ -31,6 +31,20 @@ defmodule SlackAlertLogParser do
     end
   end
 
+  def format_event_log_object(event_log_object) do
+    gateway = get_gateway_type(event_log_object)
+    %{}
+    |> Map.put("gateway_type", gateway)
+    |> Map.put("time_stamp", event_log_object["ts"])
+    |> Map.put("current_failure_count_threshold", event_log_object["threshold_values"]["Current Failure Count Threshold"])
+  end
+
+  defp get_gateway_type(event_log_object) do
+    String.split(event_log_object["text"], " ", trim: true)
+    |> List.first
+    |> String.replace("Gateway", "")
+  end
+
   defp filter_json_objects(json_contents) do
     Enum.filter(json_contents, fn obj ->
       obj["username"] == "Circuit Breaker" and
