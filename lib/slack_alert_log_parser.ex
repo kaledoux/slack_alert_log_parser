@@ -24,6 +24,7 @@ defmodule SlackAlertLogParser do
       end)
       |> List.flatten()
       |> Enum.map(&SlackAlertLogParser.add_threshold_values_to_log/1)
+      |> Enum.map(&SlackAlertLogParser.format_event_log_object/1)
       processed
     else
       :error -> IO.puts "Error!"
@@ -37,6 +38,10 @@ defmodule SlackAlertLogParser do
     |> Map.put("gateway_type", gateway)
     |> Map.put("time_stamp", event_log_object["ts"])
     |> Map.put("current_failure_count_threshold", event_log_object["threshold_values"]["Current Failure Count Threshold"])
+    |> Map.put("current_failure_rate_threshold", event_log_object["threshold_values"]["Current Failure Rate Threshold"])
+    |> Map.put("current_failure_count", event_log_object["threshold_values"]["Current Failures"])
+    |> Map.put("total_active_count", event_log_object["threshold_values"]["Total Active Count"])
+    |> Map.put("unicorns", event_log_object["threshold_values"]["Unicorns"])
   end
 
   defp get_gateway_type(event_log_object) do
@@ -59,6 +64,14 @@ defmodule SlackAlertLogParser do
       Map.put(obj, "ts", DateTime.to_iso8601(ts))
     end)
   end
+
+#  def reason_for_trip(log) do
+#   unicorn_saturation = String.to_integer(log["unicorns"]) / String.to_integer(log["total_active_count"])
+#   |> Float.round(2)
+#   if unicorn_saturation >= 0.90 do
+#     "gateway_saturation"
+#   end
+#  end
 
   def add_threshold_values_to_log(event_log_obj) do
     threshold_values = split_out_attachments(event_log_obj)
