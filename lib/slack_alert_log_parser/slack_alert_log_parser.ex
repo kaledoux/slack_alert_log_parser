@@ -4,6 +4,8 @@ defmodule SlackAlertLogParser do
   Each file contains a given day's messages and should contain an array with objects
   representing each message that was sent in that channel on that day.
 
+  The file path should lead to an extracted (read: unzipped) directory not the zip file.
+
   The module will take the directory path, read the list of files and process each file,
   converting it into a more concise format with peritinent information that is exported to
   a CSV for further anylysis.
@@ -112,4 +114,6 @@ defmodule SlackAlertLogParser do
 end
 
 # file_location = IO.gets("Enter directory where Slack's JSON logs are being stored:")
+# check if file location is valid and reprompt if not
+# prompt for location of write for csv file output?
 # SlackAlertLogParser.read_filtered_json_files_in_folder()

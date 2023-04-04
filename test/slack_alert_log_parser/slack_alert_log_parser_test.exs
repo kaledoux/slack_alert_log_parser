@@ -3,7 +3,7 @@ defmodule SlackAlertLogParserTest do
   doctest SlackAlertLogParser
 
   # assuming this is run from the root project dir
-  @test_dir "./test/test_log_directory"
+  @test_dir "./test/slack_alert_log_parser/test_log_directory"
 
   @time_stamp "2020-11-18T16:39:11Z"
 
@@ -82,16 +82,6 @@ defmodule SlackAlertLogParserTest do
       "unicorns" => "450"
     }
   ]
-
-  @saturated_event_log %{
-    "current_failure_count" => "25",
-    "current_failure_count_threshold" => "50",
-    "current_failure_rate_threshold" => "0.25",
-    "gateway_type" => "MercadoPago",
-    "time_stamp" => "2020-11-18T16:39:11Z",
-    "total_active_count" => "440",
-    "unicorns" => "450"
-  }
 
   describe "read_filtered_json_files_in_folder" do
     test "should filter out non-CB related logs" do
