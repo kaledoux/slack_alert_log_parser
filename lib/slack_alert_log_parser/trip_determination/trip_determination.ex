@@ -20,26 +20,29 @@ defmodule SlackAlertLogParser.TripDetermination do
   2. Gateway Failure Count - if `current_failure_count` > `current_failure_count_threshold`
   3. Gateway Failure Rate - if neither above conditions applies
   """
- def reason_for_trip(log) do
-  cond do
-    unicorn_saturation(log) >= 0.90 ->
-      "Gateway Saturation"
-    failure_count_exceeded(log) ->
-      "Gateway Failure Count"
-    true ->
-      "Gateway Failure Rate"
+  def reason_for_trip(log) do
+    cond do
+      unicorn_saturation(log) >= 0.85 ->
+        "Gateway Saturation"
+
+      failure_count_exceeded(log) ->
+        "Gateway Failure Count"
+
+      true ->
+        "Gateway Failure Rate"
+    end
   end
- end
 
- defp unicorn_saturation(log) do
-  active = String.to_integer(log["total_active_count"])
-  unicorns = String.to_integer(log["unicorns"])
+  defp unicorn_saturation(log) do
+    active = String.to_integer(log["total_active_count"])
+    unicorns = String.to_integer(log["unicorns"])
 
-  active / unicorns
-  |> Float.round(2)
- end
+    (active / unicorns)
+    |> Float.round(2)
+  end
 
- defp failure_count_exceeded(log) do
-   String.to_integer(log["current_failure_count"]) > String.to_integer(log["current_failure_count_threshold"])
- end
+  defp failure_count_exceeded(log) do
+    String.to_integer(log["current_failure_count"]) >
+      String.to_integer(log["current_failure_count_threshold"])
+  end
 end
