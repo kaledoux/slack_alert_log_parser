@@ -1,4 +1,4 @@
-defmodule TripDetermination do
+defmodule SlackAlertLogParser.TripDetermination do
   @moduledoc """
   This module works in conjuntion with a formatted log object to determine the reason
   why a circuit breaker trip occured in the first place, and a log was created.
@@ -31,10 +31,6 @@ defmodule TripDetermination do
   end
  end
 
- @doc """
- Finds the saturation for the gateway by determining the percentage of active unicorns
- that are being consumed by the specific gateway
- """
  defp unicorn_saturation(log) do
   active = String.to_integer(log["total_active_count"])
   unicorns = String.to_integer(log["unicorns"])
@@ -43,9 +39,6 @@ defmodule TripDetermination do
   |> Float.round(2)
  end
 
- @doc """
- Determines if the current failure count exceeds the failure count threshold
- """
  defp failure_count_exceeded(log) do
    String.to_integer(log["current_failure_count"]) > String.to_integer(log["current_failure_count_threshold"])
  end

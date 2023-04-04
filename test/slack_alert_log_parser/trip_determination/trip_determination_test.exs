@@ -1,6 +1,7 @@
 defmodule TripDeterminationTest do
   use ExUnit.Case
-  doctest TripDetermination
+  doctest SlackAlertLogParser.TripDetermination
+  alias SlackAlertLogParser.TripDetermination
 
   @saturation_log %{
     "current_failure_count" => "25",

@@ -79,14 +79,36 @@ defmodule SlackAlertLogParserTest do
       "gateway_type" => "MercadoPago",
       "time_stamp" => "2020-11-18T16:39:11Z",
       "total_active_count" => "8",
-      "unicorns" => "450"
+      "unicorns" => "450",
+      "reason" => "Gateway Failure Rate"
+    },
+    %{
+      "current_failure_count" => "25",
+      "current_failure_count_threshold" => "50",
+      "current_failure_rate_threshold" => "0.25",
+      "gateway_type" => "Adyen",
+      "time_stamp" => "2020-11-18T16:39:11Z",
+      "total_active_count" => "458",
+      "unicorns" => "450",
+      "reason" => "Gateway Saturation"
     }
   ]
+
+  @log_with_reason %{
+      "current_failure_count" => "25",
+      "current_failure_count_threshold" => "50",
+      "current_failure_rate_threshold" => "0.25",
+      "gateway_type" => "MercadoPago",
+      "time_stamp" => "2020-11-18T16:39:11Z",
+      "total_active_count" => "8",
+      "unicorns" => "450",
+      "reason" => "Gateway Failure Rate"
+    }
 
   describe "read_filtered_json_files_in_folder" do
     test "should filter out non-CB related logs" do
       {:ok, filtered} = SlackAlertLogParser.read_filtered_json_files_in_folder(@test_dir)
-      assert length(filtered) == 1
+      assert length(filtered) == 2
       refute Enum.any?(filtered, fn obj ->
         String.contains?(obj["text"], "resumed operation")
       end)
@@ -129,6 +151,13 @@ defmodule SlackAlertLogParserTest do
 
       # current unicorn consumption data
       assert Map.get(formatted, "unicorns") == @threshold_values_map["Unicorns"]
+    end
+  end
+
+  describe "add_reason" do
+    test "should add reason to log" do
+      log_with_reason = SlackAlertLogParser.add_reason(List.first(@formatted_logs))
+      assert log_with_reason == @log_with_reason
     end
   end
 

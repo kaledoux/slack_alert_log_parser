@@ -1,4 +1,5 @@
 defmodule SlackAlertLogParser do
+  alias SlackAlertLogParser.TripDetermination
   @moduledoc """
   Takes a given file path to the folder containing the dump of JSON files from Slack.
   Each file contains a given day's messages and should contain an array with objects
@@ -17,6 +18,7 @@ defmodule SlackAlertLogParser do
     with {:ok, filtered} <- SlackAlertLogParser.read_filtered_json_files_in_folder(folder_path) do
       formatted = filtered
       |> Enum.map(&SlackAlertLogParser.format_event_log_object/1)
+      |> Enum.map(&SlackAlertLogParser.add_reason/1)
       {:ok, formatted}
     else
       {:error, message} ->
@@ -49,9 +51,10 @@ defmodule SlackAlertLogParser do
       "current_failure_count" => event_log_object["threshold_values"]["Current Failures"],
       "total_active_count" =>  event_log_object["threshold_values"]["Total Active Count"],
       "unicorns" => event_log_object["threshold_values"]["Unicorns"]
-
     }
   end
+
+  def add_reason(log), do: Map.put(log, "reason", TripDetermination.reason_for_trip(log))
 
   def add_threshold_values_to_log(event_log_obj) do
     threshold_values = split_out_attachments(event_log_obj)
@@ -102,14 +105,6 @@ defmodule SlackAlertLogParser do
       Map.put(obj, "ts", DateTime.to_iso8601(ts))
     end)
   end
-
-#  def reason_for_trip(log) do
-#   unicorn_saturation = String.to_integer(log["unicorns"]) / String.to_integer(log["total_active_count"])
-#   |> Float.round(2)
-#   if unicorn_saturation >= 0.90 do
-#     "gateway_saturation"
-#   end
-#  end
 
 end
 
