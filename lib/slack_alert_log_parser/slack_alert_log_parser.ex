@@ -107,8 +107,3 @@ defmodule SlackAlertLogParser do
   end
 
 end
-
-# file_location = IO.gets("Enter directory where Slack's JSON logs are being stored:")
-# check if file location is valid and reprompt if not
-# prompt for location of write for csv file output?
-# SlackAlertLogParser.read_filtered_json_files_in_folder()
