@@ -1,3 +1,0 @@
-current_failure_count,current_failure_count_threshold,current_failure_rate_threshold,gateway_type,time_stamp,total_active_count,unicorns
-25,50,0.25,MercadoPago,2020-11-18T16:39:11Z,8,450
-5,50,0.25,Adyen,2021-11-18T16:39:11Z,450,450

@@ -21,10 +21,32 @@ defmodule TripDetermination do
   3. Gateway Failure Rate - if neither above conditions applies
   """
  def reason_for_trip(log) do
-  unicorn_saturation = String.to_integer(log["unicorns"]) / String.to_integer(log["total_active_cot"])
-  |> Float.round(2)
-  if unicorn_saturation >= 0.90 do
-    "gateway_saturation"
+  cond do
+    unicorn_saturation(log) >= 0.90 ->
+      "Gateway Saturation"
+    failure_count_exceeded(log) ->
+      "Gateway Failure Count"
+    true ->
+      "Gateway Failure Rate"
   end
+ end
+
+ @doc """
+ Finds the saturation for the gateway by determining the percentage of active unicorns
+ that are being consumed by the specific gateway
+ """
+ defp unicorn_saturation(log) do
+  active = String.to_integer(log["total_active_count"])
+  unicorns = String.to_integer(log["unicorns"])
+
+  active / unicorns
+  |> Float.round(2)
+ end
+
+ @doc """
+ Determines if the current failure count exceeds the failure count threshold
+ """
+ defp failure_count_exceeded(log) do
+   String.to_integer(log["current_failure_count"]) > String.to_integer(log["current_failure_count_threshold"])
  end
 end
