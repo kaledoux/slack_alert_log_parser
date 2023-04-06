@@ -1,5 +1,6 @@
 defmodule SlackAlertLogParser do
   alias SlackAlertLogParser.TripDetermination
+
   @moduledoc """
   Takes a given file path to the folder containing the dump of JSON files from Slack.
   Each file contains a given day's messages and should contain an array with objects
@@ -16,40 +17,46 @@ defmodule SlackAlertLogParser do
   """
   def format_all_logs(folder_path) do
     with {:ok, filtered} <- SlackAlertLogParser.read_filtered_json_files_in_folder(folder_path) do
-      formatted = filtered
-      |> Enum.map(&SlackAlertLogParser.format_event_log_object/1)
-      |> Enum.map(&SlackAlertLogParser.add_reason/1)
+      formatted =
+        filtered
+        |> Enum.map(&SlackAlertLogParser.format_event_log_object/1)
+        |> Enum.map(&SlackAlertLogParser.add_reason/1)
+
       {:ok, formatted}
     else
       {:error, message} ->
-        IO.puts message
+        IO.puts(message)
         {:error, "failed to format all logs"}
     end
   end
 
   def read_filtered_json_files_in_folder(folder_path) do
-    with {:ok, folder_contents} <- File.ls(folder_path)
-    do
-      processed = decode_files_from_json(folder_contents, folder_path)
-      |> List.flatten()
-      |> Enum.sort(&(&1["ts"] <= &2["ts"]))
-      |> Enum.map(&SlackAlertLogParser.add_threshold_values_to_log/1)
+    with {:ok, folder_contents} <- File.ls(folder_path) do
+      processed =
+        decode_files_from_json(folder_contents, folder_path)
+        |> List.flatten()
+        |> Enum.sort(&(&1["ts"] <= &2["ts"]))
+        |> Enum.map(&SlackAlertLogParser.add_threshold_values_to_log/1)
+
       {:ok, processed}
     else
-      :error -> IO.puts "Error!"
+      :error -> IO.puts("Error!")
       {:error, :enoent} -> {:error, "Could not read files from #{folder_path}"}
     end
   end
 
   def format_event_log_object(event_log_object) do
     gateway = get_gateway_type(event_log_object)
+
     %{
       "gateway_type" => gateway,
       "time_stamp" => event_log_object["ts"],
-      "current_failure_count_threshold" => event_log_object["threshold_values"]["Current Failure Count Threshold"],
-      "current_failure_rate_threshold" => event_log_object["threshold_values"]["Current Failure Rate Threshold"],
+      "current_failure_count_threshold" =>
+        event_log_object["threshold_values"]["Current Failure Count Threshold"],
+      "current_failure_rate_threshold" =>
+        event_log_object["threshold_values"]["Current Failure Rate Threshold"],
       "current_failure_count" => event_log_object["threshold_values"]["Current Failures"],
-      "total_active_count" =>  event_log_object["threshold_values"]["Total Active Count"],
+      "total_active_count" => event_log_object["threshold_values"]["Total Active Count"],
       "unicorns" => event_log_object["threshold_values"]["Unicorns"]
     }
   end
@@ -57,8 +64,10 @@ defmodule SlackAlertLogParser do
   def add_reason(log), do: Map.put(log, "reason", TripDetermination.reason_for_trip(log))
 
   def add_threshold_values_to_log(event_log_obj) do
-    threshold_values = split_out_attachments(event_log_obj)
-    |> build_threshold_values
+    threshold_values =
+      split_out_attachments(event_log_obj)
+      |> build_threshold_values
+
     event_log_obj = Map.put(event_log_obj, "threshold_values", threshold_values)
     event_log_obj
   end
@@ -79,6 +88,7 @@ defmodule SlackAlertLogParser do
     Enum.map(folder_contents, fn file_name ->
       file_path = "#{folder_path}/#{file_name}"
       {:ok, file_contents} = File.read(file_path)
+
       Poison.decode!(file_contents)
       |> filter_json_objects()
       |> convert_unix_timestamp()
@@ -87,15 +97,15 @@ defmodule SlackAlertLogParser do
 
   defp get_gateway_type(event_log_object) do
     String.split(event_log_object["text"], " ", trim: true)
-    |> List.first
+    |> List.first()
     |> String.replace("Gateway", "")
   end
 
   defp filter_json_objects(json_contents) do
     Enum.filter(json_contents, fn obj ->
       obj["username"] == "Circuit Breaker" and
-      obj["attachments"] != nil and
-      String.contains?(obj["text"], "resumed operation") == false
+        obj["attachments"] != nil and
+        String.contains?(obj["text"], "resumed operation") == false
     end)
   end
 
@@ -105,5 +115,4 @@ defmodule SlackAlertLogParser do
       Map.put(obj, "ts", DateTime.to_iso8601(ts))
     end)
   end
-
 end
